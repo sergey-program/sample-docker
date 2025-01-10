@@ -20,6 +20,8 @@ services:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
+    volumes:
+      - ./files:/var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -44,7 +46,7 @@ services:
     tty: true
   
   mysql:
-    container_name: sql_mysql
+    container_name: sdl_mysql
     image: mysql:8.0
     volumes:
       - ./database:/var/lib/mysql
@@ -57,6 +59,7 @@ services:
       - "33061:3306"
 
   node:
+    container_name: sql_nodejs
     image: node:18-alpine
     ports:
       - "3000:3000"
