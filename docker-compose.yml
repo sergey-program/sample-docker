@@ -55,3 +55,12 @@ services:
       - "MYSQL_DATABASE=laravel"
     ports:
       - "33061:3306"
+
+  node:
+    image: node:18-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    tty: true
