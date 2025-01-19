@@ -13,6 +13,8 @@ services:
       - "8090:80"
     depends_on:
       - php-fpm
+    networks:
+      - sample-network
 
   php-fpm:
     container_name: sdl_php-fpm
@@ -23,7 +25,9 @@ services:
       - ./files:/var/www
     environment:
       - "DB_PORT=3306"
-  
+    networks:
+      - sample-network
+
   php-cli:
     container_name: sdl_php-cli
     build:
@@ -35,6 +39,8 @@ services:
       - "DB_PORT=3306"
       - "COMPOSER_MEMORY_LIMIT=-1"
     tty: true
+    networks:
+      - sample-network
 
   mysql:
     container_name: sdl_mysql8
@@ -48,6 +54,8 @@ services:
       - "MYSQL_DATABASE=laravel"
     ports:
       - "13306:3306"
+    networks:
+      - sample-network
 
 #  node:
 #    container_name: sql_nodejs
@@ -58,3 +66,7 @@ services:
 #      - ./:/var/www
 #    working_dir: /var/www
 #    tty: true
+
+networks:
+  sample-network:
+    driver: bridge
