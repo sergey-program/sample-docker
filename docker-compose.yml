@@ -2,7 +2,7 @@ services:
   nginx:
     container_name: sdl_nginx
     build:
-      context: ./docker/config/nginx
+      context: ./docker/configs/nginx
       dockerfile: Dockerfile
     volumes:
       - ./files:/var/www
@@ -19,7 +19,7 @@ services:
   php-fpm:
     container_name: sdl_php-fpm
     build:
-      context: ./docker/config/php-fpm
+      context: ./docker/configs/php-fpm
       dockerfile: Dockerfile
     volumes:
       - ./files:/var/www
@@ -31,7 +31,7 @@ services:
   php-cli:
     container_name: sdl_php-cli
     build:
-      context: ./docker/config/php-cli
+      context: ./docker/configs/php-cli
       dockerfile: Dockerfile
     volumes:
       - ./files:/var/www
@@ -46,14 +46,13 @@ services:
     container_name: sdl_mysql8
     image: mysql:8.0
     volumes:
-      - ./docker/databases/mysql8:/var/lib/mysql
-    environment:
-      - "MYSQL_ROOT_PASSWORD=secret"
-      - "MYSQL_USER=user"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_DATABASE=laravel"
+      - ./docker/databases/mysql8:/var/lib/mysql:rw
+      - ./docker/configs/mysql8/:/docker-entrypoint-initdb.d/:rw
+    env_file:
+      - ./docker/.env
     ports:
       - "13306:3306"
+    command: [ 'mysqld' , '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     networks:
       - sample-network
 
