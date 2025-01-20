@@ -2,10 +2,10 @@ services:
   nginx:
     container_name: sdl_nginx
     build:
-      context: ./docker/configs/nginx
+      context: ./configs/nginx
       dockerfile: Dockerfile
     volumes:
-      - ./files:/var/www
+      - ../files:/var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -19,10 +19,10 @@ services:
   php-fpm:
     container_name: sdl_php-fpm
     build:
-      context: ./docker/configs/php-fpm
+      context: ./configs/php-fpm
       dockerfile: Dockerfile
     volumes:
-      - ./files:/var/www
+      - ../files:/var/www
     environment:
       - "DB_PORT=3306"
     networks:
@@ -31,41 +31,48 @@ services:
   php-cli:
     container_name: sdl_php-cli
     build:
-      context: ./docker/configs/php-cli
+      context: ./configs/php-cli
       dockerfile: Dockerfile
+      args:
+        - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
     volumes:
-      - ./files:/var/www
+      - ../files:/var/www
     environment:
       - "DB_PORT=3306"
       - "COMPOSER_MEMORY_LIMIT=-1"
     tty: true
     networks:
       - sample-network
+    depends_on:
+      - php-fpm
 
   mysql:
     container_name: sdl_mysql8
     image: mysql:8.0
     volumes:
-      - ./docker/databases/mysql8:/var/lib/mysql:rw
-      - ./docker/configs/mysql8/:/docker-entrypoint-initdb.d/:rw
-    env_file:
-      - ./docker/.env
+      - ./databases/mysql8:/var/lib/mysql:rw
+      - ./configs/mysql8/:/docker-entrypoint-initdb.d/:rw
     ports:
       - "13306:3306"
     command: [ 'mysqld' , '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     networks:
       - sample-network
 
-#  node:
-#    container_name: sql_nodejs
-#    image: node:18-alpine
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ./:/var/www
-#    working_dir: /var/www
-#    tty: true
+  node:
+    container_name: sql_nodejs
+    build:
+      context: ./configs/nodejs
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    volumes:
+      - ../files:/var/www
+    working_dir: /var/www
+    tty: true
+    networks:
+      - sample-network
 
 networks:
   sample-network:
     driver: bridge
+    
