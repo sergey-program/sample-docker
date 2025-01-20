@@ -47,14 +47,17 @@ services:
       - php-fpm
 
   mysql:
-    container_name: sdl_mysql8
-    image: mysql:8.0
+    container_name: sdl_mysql
+    build:
+      context: ./configs/mysql
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
     volumes:
-      - ./databases/mysql8:/var/lib/mysql:rw
-      - ./configs/mysql8/:/docker-entrypoint-initdb.d/:rw
+      - ./databases/mysql:/var/lib/mysql:rw
+      - ./configs/mysql/:/docker-entrypoint-initdb.d/:rw
     ports:
       - "13306:3306"
-    command: [ 'mysqld' , '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     networks:
       - sample-network
 
