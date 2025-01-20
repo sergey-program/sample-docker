@@ -1,6 +1,6 @@
 services:
   nginx:
-    container_name: sdl_nginx
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
     build:
       context: ./configs/nginx
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
       - sample-network
 
   php-fpm:
-    container_name: sdl_php-fpm
+    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
     build:
       context: ./configs/php-fpm
       dockerfile: Dockerfile
@@ -29,7 +29,7 @@ services:
       - sample-network
 
   php-cli:
-    container_name: sdl_php-cli
+    container_name: ${COMPOSE_PROJECT_NAME}_php-cli
     build:
       context: ./configs/php-cli
       dockerfile: Dockerfile
@@ -47,7 +47,7 @@ services:
       - php-fpm
 
   mysql:
-    container_name: sdl_mysql
+    container_name: ${COMPOSE_PROJECT_NAME}_mysql
     build:
       context: ./configs/mysql
       dockerfile: Dockerfile
@@ -62,7 +62,7 @@ services:
       - sample-network
 
   node:
-    container_name: sql_nodejs
+    container_name: ${COMPOSE_PROJECT_NAME}_nodejs
     build:
       context: ./configs/nodejs
       dockerfile: Dockerfile
