@@ -1,13 +1,11 @@
 FROM php:8.1-fpm
 
-RUN apt-get update && apt-get install -y libmcrypt-dev libpng-dev mariadb-client \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libgd-dev \
-    && docker-php-ext-install pdo_mysql pcntl
+RUN apt-get update
+RUN apt-get install -y libmcrypt-dev mariadb-client
+RUN apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libjpeg62-turbo-dev   
+RUN apt-get install -y libgd-dev
 
+RUN docker-php-ext-install pdo_mysql pcntl
 RUN docker-php-ext-configure exif
 RUN docker-php-ext-install exif
 RUN docker-php-ext-enable exif
