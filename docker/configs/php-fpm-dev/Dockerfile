@@ -1,6 +1,6 @@
 ARG COMPOSE_PROJECT_NAME
 
-FROM ${COMPOSE_PROJECT_NAME}-php-fpm:latest
+FROM ${COMPOSE_PROJECT_NAME}-php-fpm-prod:latest
 
 RUN groupadd --gid 1000 dev
 RUN useradd --uid 1000 --gid 1000 --shell /bin/bash --create-home dev

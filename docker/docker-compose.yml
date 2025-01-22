@@ -6,45 +6,42 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../files:/var/www
-    environment:
-      - "DB_PORT=3306"
-      - "DB_HOST=mysql"
     ports:
       - "8090:80"
-    depends_on:
-      - php-fpm
+    tty: true
     networks:
-      - sample-network
+      - network
 
-  php-fpm:
-    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
+  php-fpm-prod:
+    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm-prod
     build:
-      context: ./configs/php-fpm
+      context: ./configs/php-fpm-prod
       dockerfile: Dockerfile
     volumes:
       - ../files:/var/www
-    environment:
-      - "DB_PORT=3306"
     networks:
-      - sample-network
+      network:
+        aliases:
+          - php-fpm
 
-  php-cli:
-    container_name: ${COMPOSE_PROJECT_NAME}_php-cli
+  php-fpm-dev:
+    extends:
+      service: php-fpm-prod
+    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm-dev
     build:
-      context: ./configs/php-cli
+      context: ./configs/php-fpm-dev
       dockerfile: Dockerfile
       args:
         - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
     volumes:
       - ../files:/var/www
     environment:
-      - "DB_PORT=3306"
       - "COMPOSER_MEMORY_LIMIT=-1"
     tty: true
     networks:
-      - sample-network
-    depends_on:
-      - php-fpm
+      network:
+        aliases:
+          - php-fpm
 
   mysql:
     container_name: ${COMPOSE_PROJECT_NAME}_mysql
@@ -58,8 +55,9 @@ services:
       - ./configs/mysql/:/docker-entrypoint-initdb.d/:rw
     ports:
       - "13306:3306"
+    tty: true
     networks:
-      - sample-network
+      - network
 
   node:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
@@ -73,9 +71,8 @@ services:
     working_dir: /var/www
     tty: true
     networks:
-      - sample-network
+      - network
 
 networks:
-  sample-network:
+  network:
     driver: bridge
-    

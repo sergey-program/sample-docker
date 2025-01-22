@@ -1,9 +1,7 @@
-# sample-docker-laravel
+# sample-docker
 
 build and up containers
 
-create project files from scratch
-
-docker exec -it php-cli bash
-cd /var/www
-composer create-project laravel/laravel ./
+up containers for dev and prod
+/bin/bash /home/sergey/www/sample-docker/docker/run/dev.sh
+/bin/bash /home/sergey/www/sample-docker/docker/run/prod.sh
