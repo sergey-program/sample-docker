@@ -1,4 +1,4 @@
 #!bin/bash
 
-docker compose build php-fpm-prod;
-docker compose up -d --build mysql nginx php-fpm-dev;
+docker compose -f ./docker-compose.prod.yml build;
+docker compose -f ./docker-compose.dev.yml up -d;
