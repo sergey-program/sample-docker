@@ -11,6 +11,8 @@ services:
     tty: true
     networks:
       - network
+    depends_on:
+      - php-fpm-prod
 
   php-fpm-prod:
     container_name: ${COMPOSE_PROJECT_NAME}_php-fpm-prod
@@ -19,25 +21,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../files:/var/www
-    networks:
-      network:
-        aliases:
-          - php-fpm
-
-  php-fpm-dev:
-    extends:
-      service: php-fpm-prod
-    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm-dev
-    build:
-      context: ./configs/php-fpm-dev
-      dockerfile: Dockerfile
-      args:
-        - COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME
-    volumes:
-      - ../files:/var/www
-    environment:
-      - "COMPOSER_MEMORY_LIMIT=-1"
-    tty: true
     networks:
       network:
         aliases:
