@@ -35,7 +35,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./databases/mysql:/var/lib/mysql:rw
+      - ./../../data/mysql:/var/lib/mysql:rw
       - ./configs/mysql/:/docker-entrypoint-initdb.d/:rw
     ports:
       - "13306:3306"
