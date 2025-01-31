@@ -5,7 +5,7 @@ services:
       context: ./configs/nginx
       dockerfile: Dockerfile
     volumes:
-      - ../files:/var/www
+      - ./../../../files:/var/www
     ports:
       - "8090:80"
     tty: true
@@ -20,7 +20,7 @@ services:
       context: ./configs/php-fpm
       dockerfile: Dockerfile
     volumes:
-      - ../files:/var/www
+      - ./../../../files:/var/www
     tty: true
     networks:
       - network
@@ -51,7 +51,7 @@ services:
     ports:
       - "3001:3000"
     volumes:
-      - ../files:/var/www
+      - ./../../../files:/var/www
     working_dir: /var/www
     tty: true
     networks:
