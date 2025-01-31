@@ -1,6 +1,6 @@
 services:
   nginx:
-    container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    container_name: ${COMPOSE_PROJECT_NAME}_prod_nginx
     build:
       context: ./configs/nginx
       dockerfile: Dockerfile
@@ -12,22 +12,23 @@ services:
     networks:
       - network
     depends_on:
-      - php-fpm-prod
+      - php-fpm
 
-  php-fpm-prod:
-    container_name: ${COMPOSE_PROJECT_NAME}_php-fpm-prod
+  php-fpm:
+    container_name: ${COMPOSE_PROJECT_NAME}_prod_php-fpm
     build:
-      context: ./configs/php-fpm-prod
+      context: ./configs/php-fpm
       dockerfile: Dockerfile
     volumes:
       - ../files:/var/www
+    tty: true
     networks:
-      network:
-        aliases:
-          - php-fpm
+      - network
+    depends_on:
+      - mysql
 
   mysql:
-    container_name: ${COMPOSE_PROJECT_NAME}_mysql
+    container_name: ${COMPOSE_PROJECT_NAME}_prod_mysql
     build:
       context: ./configs/mysql
       dockerfile: Dockerfile
@@ -43,7 +44,7 @@ services:
       - network
 
   node:
-    container_name: ${COMPOSE_PROJECT_NAME}_nodejs
+    container_name: ${COMPOSE_PROJECT_NAME}_prod_nodejs
     build:
       context: ./configs/nodejs
       dockerfile: Dockerfile
