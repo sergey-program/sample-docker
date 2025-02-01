@@ -5,7 +5,7 @@ services:
       context: ./configs/nginx
       dockerfile: Dockerfile
     volumes:
-      - ./../../files:/var/www
+      - ./../files:/var/www
     ports:
       - "8090:80"
     tty: true
@@ -13,6 +13,8 @@ services:
       - network
     depends_on:
       - php-fpm
+    profiles:
+      - backend
 
   php-fpm:
     container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
@@ -21,12 +23,14 @@ services:
       dockerfile: Dockerfile
       target: ${COMPOSE_PROJECT_TYPE} # prod\dev
     volumes:
-      - ./../../files:/var/www
+      - ./../files:/var/www
     tty: true
     networks:
       - network
     depends_on:
       - mysql
+    profiles:
+      - backend
 
   mysql:
     container_name: ${COMPOSE_PROJECT_NAME}_mysql
@@ -43,8 +47,10 @@ services:
     tty: true
     networks:
       - network
+    profiles:
+      - backend
 
-  node:
+  nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
     build:
       context: ./configs/nodejs
@@ -52,11 +58,13 @@ services:
     ports:
       - "3001:3000"
     volumes:
-      - ./../../files:/var/www
+      - ./../files:/var/www
     working_dir: /var/www
     tty: true
     networks:
       - network
+    profiles:
+      - frontend
 
 networks:
   network:
