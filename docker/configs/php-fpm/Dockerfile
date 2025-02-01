@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-fpm AS prod
 
 RUN apt-get update
 RUN apt-get install -y libmcrypt-dev mariadb-client
@@ -20,3 +20,15 @@ RUN apt-get install -y cron
 COPY ./conf.d /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www
+
+FROM prod AS dev
+
+RUN groupadd --gid 1000 dev
+RUN useradd --uid 1000 --gid 1000 --shell /bin/bash --create-home dev
+
+RUN apt-get install -y git
+
+RUN curl -sS https://getcomposer.org/installer |php
+RUN mv composer.phar /usr/local/bin/composer
+
+USER dev
