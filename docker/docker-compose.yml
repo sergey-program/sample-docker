@@ -15,6 +15,7 @@ services:
       - php-fpm
     profiles:
       - backend
+      - frontend
 
   php-fpm:
     container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
@@ -31,6 +32,7 @@ services:
       - mysql
     profiles:
       - backend
+      - frontend
 
   mysql:
     container_name: ${COMPOSE_PROJECT_NAME}_mysql
@@ -49,6 +51,7 @@ services:
       - network
     profiles:
       - backend
+      - frontend
 
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
