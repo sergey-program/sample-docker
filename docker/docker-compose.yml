@@ -5,7 +5,7 @@ services:
       context: ./configs/nginx
       dockerfile: Dockerfile
     volumes:
-      - ./../files:/var/www
+      - ./../files:/var/www:rw
     ports:
       - "8090:80"
     tty: true
@@ -39,16 +39,36 @@ services:
     build:
       context: ./configs/mysql
       dockerfile: Dockerfile
-    env_file:
-      - ./.env
     volumes:
-      - ./../../data/mysql:/var/lib/mysql:rw
-      - ./configs/mysql/:/docker-entrypoint-initdb.d/:rw
+      - ./data/mysql:/var/lib/mysql:rw
+      - ./configs/mysql/:/docker-entrypoint-initdb.d/:ro
     ports:
       - "13306:3306"
     tty: true
+    env_file:
+      - .env
     networks:
       - network
+    profiles:
+      - backend
+      - frontend
+
+  mongodb:
+    container_name: ${COMPOSE_PROJECT_NAME}_mongodb
+#    image: mongo:5.0.31
+    build:
+      context: ./configs/mongodb
+      dockerfile: Dockerfile
+    volumes:
+      - ./data/mongodb:/data/db:rw
+      - ./configs/mongodb/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    ports:
+      - "37017:27017"
+    tty: true
+    networks:
+      - network
+    env_file:
+      - .env
     profiles:
       - backend
       - frontend
