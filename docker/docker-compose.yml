@@ -55,7 +55,6 @@ services:
 
   mongodb:
     container_name: ${COMPOSE_PROJECT_NAME}_mongodb
-#    image: mongo:5.0.31
     build:
       context: ./configs/mongodb
       dockerfile: Dockerfile
@@ -69,10 +68,20 @@ services:
       - network
     env_file:
       - .env
-    profiles:
-      - backend
-      - frontend
 
+  memcached:
+    container_name: ${COMPOSE_PROJECT_NAME}_memcached
+    build:
+      context: ./configs/memcached
+      dockerfile: Dockerfile
+    command:
+      - --conn-limit=1024
+      - --memory-limit=64
+      - --threads=4
+    tty: true
+    networks:
+      - network
+  
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
     build:
