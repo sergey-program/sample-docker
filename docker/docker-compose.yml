@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./../files:/var/www:rw
+      - ./configs/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
       - "8090:80"
     tty: true

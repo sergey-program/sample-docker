@@ -1,5 +1,3 @@
-FROM nginx:latest
+FROM nginx:latest AS prod
 
-COPY ./conf.d/ /etc/nginx/conf.d/
-
-WORKDIR /var/www
+FROM prod AS dev
