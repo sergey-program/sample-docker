@@ -14,5 +14,3 @@ db.createUser({
 
 db.createCollection('$MONGO_INITDB_COLLECTION');
 EOF
-
-echo "hello world!!!!!!!!!!!!"
