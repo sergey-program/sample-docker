@@ -43,6 +43,7 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
       - ./configs/mysql/:/docker-entrypoint-initdb.d/:ro
+      - ./../files:/var/www
     ports:
       - "13306:3306"
     tty: true
