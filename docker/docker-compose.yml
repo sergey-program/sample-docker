@@ -82,6 +82,9 @@ services:
     networks:
       - network
   
+#  redis: #todo add
+#  manticoresearch: #todo add (fork of sphinx)  
+  
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
     build:
