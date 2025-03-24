@@ -18,7 +18,7 @@ services:
       - backend
       - frontend
 
-  php-fpm:
+  php-fpm: # @todo update to 8.2
     container_name: ${COMPOSE_PROJECT_NAME}_php-fpm
     build:
       context: ./configs/php-fpm
