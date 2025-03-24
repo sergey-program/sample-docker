@@ -84,8 +84,22 @@ services:
     networks:
       - network
   
-#  redis: #todo add
-#  manticoresearch: #todo add (fork of sphinx)  
+  #  valkey: #todo add
+
+  manticoresearch:
+    container_name: ${COMPOSE_PROJECT_NAME}_manticoresearch
+    build:
+      context: ./configs/manticoresearch
+      dockerfile: Dockerfile
+    volumes:
+      - ./data/manticoresearch:/var/lib/manticore
+      #- ./configs/manticoresearch/manticore.conf:/etc/manticoresearch/manticore.conf
+    ports:
+      - 19306:9306
+      - 19308:9308
+    tty: true
+    networks:
+      - network
   
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
