@@ -93,7 +93,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./data/manticoresearch:/var/lib/manticore
-      #- ./configs/manticoresearch/manticore.conf:/etc/manticoresearch/manticore.conf
+      - ./configs/manticoresearch/manticore.conf:/etc/manticoresearch/manticore.conf
     ports:
       - 19306:9306
       - 19308:9308
