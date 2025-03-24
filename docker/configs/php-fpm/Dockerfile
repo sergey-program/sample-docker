@@ -10,6 +10,10 @@ RUN docker-php-ext-configure exif
 RUN docker-php-ext-install exif
 RUN docker-php-ext-enable exif
 
+RUN apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev
+RUN pecl install mongodb
+RUN docker-php-ext-enable mongodb
+
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-webp=/usr/include/  --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd
 
