@@ -107,7 +107,7 @@ services:
       context: ./configs/nodejs
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - ./../files:/var/www
     working_dir: /var/www
