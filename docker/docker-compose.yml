@@ -123,7 +123,6 @@ services:
       - "6379:6379"
     volumes:
       - ./data/valkey:/data
-    tty: true
     stdin_open: true
 
 networks:
