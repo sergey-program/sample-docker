@@ -105,6 +105,7 @@ services:
     volumes:
       - ./../files:/var/www
     working_dir: /var/www
+    tty: true
     networks:
       - network
     profiles:
