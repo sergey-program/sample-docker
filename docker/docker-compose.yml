@@ -8,7 +8,7 @@ services:
       - ./../files:/var/www:rw
       - ./configs/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - "8090:80"
+      - ${NGINX_PORT1}:80
     networks:
       - network
     depends_on:
@@ -43,7 +43,7 @@ services:
       - ./configs/mysql/:/docker-entrypoint-initdb.d/:ro
       - ./../files:/var/www
     ports:
-      - "13306:3306"
+      - ${MYSQL_PORT1}:3306
     env_file:
       - .env
     networks:
@@ -61,7 +61,7 @@ services:
       - ./data/mongodb:/data/db:rw
       - ./configs/mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
     ports:
-      - "37017:27017"
+      - ${MONGO_PORT1}:27017
     networks:
       - network
     env_file:
@@ -90,8 +90,8 @@ services:
       - ./data/manticoresearch:/var/lib/manticore
       - ./configs/manticoresearch/manticore.conf:/etc/manticoresearch/manticore.conf
     ports:
-      - 19306:9306
-      - 19308:9308
+      - ${MANTICORE_SEARCH_PORT1}:9306
+      - ${MANTICORE_SEARCH_PORT2}:9308
     networks:
       - network
   
@@ -101,7 +101,7 @@ services:
       context: ./configs/nodejs
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - ${NODE_JS_PORT1}:3000
     volumes:
       - ./../files:/var/www
     working_dir: /var/www
@@ -121,7 +121,7 @@ services:
         - user_name=${VALKEY_USER_NAME}
         - user_password=${VALKEY_USER_PASSWORD}
     ports:
-      - "6379:6379"
+      - ${VALKEY_PORT1}:6379
     volumes:
       - ./data/valkey:/data
     stdin_open: true
