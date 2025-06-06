@@ -79,7 +79,8 @@ services:
     networks:
       - network
   
-  #  postgres: #todo add
+  # postgres: #todo add
+  # check .dockerignore can be used in volume or dockerfile-copy
 
   manticoresearch:
     container_name: ${COMPOSE_PROJECT_NAME}_manticoresearch
