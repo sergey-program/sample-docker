@@ -8,7 +8,7 @@ services:
       - ./../files:/var/www:rw
       - ./configs/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - ${NGINX_PORT1}:80
+      - ${NGINX_PORT1:-80}:80
     networks:
       - network
     depends_on:
@@ -43,7 +43,7 @@ services:
       - ./configs/mysql/:/docker-entrypoint-initdb.d/:ro
       - ./../files:/var/www
     ports:
-      - ${MYSQL_PORT1}:3306
+      - ${MYSQL_PORT1:-3306}:3306
     env_file:
       - .env
     networks:
@@ -58,14 +58,14 @@ services:
       context: ./configs/postgres
       dockerfile: Dockerfile
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-default}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-default}
-      POSTGRES_DB: ${POSTGRES_DATABASE:-default}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
       PGDATA: /data/postgres
     volumes:
       - ./data/postgres:/data/postgres:rw
     ports:
-      - ${POSTGRES_PORT1}:5432
+      - ${POSTGRES_PORT1:-5432}:5432
     profiles:
       - backend
       - frontend
@@ -79,7 +79,7 @@ services:
       - ./data/mongodb:/data/db:rw
       - ./configs/mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
     ports:
-      - ${MONGO_PORT1}:27017
+      - ${MONGO_PORT1:-27017}:27017
     networks:
       - network
     env_file:
@@ -109,8 +109,8 @@ services:
       - ./data/manticoresearch:/var/lib/manticore
       - ./configs/manticoresearch/manticore.conf:/etc/manticoresearch/manticore.conf
     ports:
-      - ${MANTICORE_SEARCH_PORT1}:9306
-      - ${MANTICORE_SEARCH_PORT2}:9308
+      - ${MANTICORE_SEARCH_PORT1:-9306}:9306
+      - ${MANTICORE_SEARCH_PORT2:-9308}:9308
     networks:
       - network
   
@@ -120,7 +120,7 @@ services:
       context: ./configs/nodejs
       dockerfile: Dockerfile
     ports:
-      - ${NODE_JS_PORT1}:3000
+      - ${NODE_JS_PORT1:-3000}:3000
     volumes:
       - ./../files:/var/www
     working_dir: /var/www
@@ -140,7 +140,7 @@ services:
         - user_name=${VALKEY_USER_NAME}
         - user_password=${VALKEY_USER_PASSWORD}
     ports:
-      - ${VALKEY_PORT1}:6379
+      - ${VALKEY_PORT1:-6379}:6379
     volumes:
       - ./data/valkey:/data
     stdin_open: true
