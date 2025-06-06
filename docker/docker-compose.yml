@@ -51,6 +51,24 @@ services:
     profiles:
       - backend
       - frontend
+  
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres
+    build:
+      context: ./configs/postgres
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-default}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-default}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-default}
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/postgres:/data/postgres:rw
+    ports:
+      - ${POSTGRES_PORT1}:5432
+    profiles:
+      - backend
+      - frontend
 
   mongodb:
     container_name: ${COMPOSE_PROJECT_NAME}_mongodb
