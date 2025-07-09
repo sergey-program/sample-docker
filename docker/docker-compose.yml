@@ -10,7 +10,7 @@ services:
     ports:
       - ${NGINX_PORT1:-80}:80
     networks:
-      - network
+      - custom
     depends_on:
       - php-fpm
     profiles:
@@ -26,7 +26,7 @@ services:
     volumes:
       - ./../files:/var/www
     networks:
-      - network
+      - custom
     depends_on:
       - mysql
     profiles:
@@ -47,7 +47,7 @@ services:
     env_file:
       - .env
     networks:
-      - network
+      - custom
     profiles:
       - backend
       - frontend
@@ -69,6 +69,8 @@ services:
     profiles:
       - backend
       - frontend
+    networks:
+      - custom
 
   mongodb:
     container_name: ${COMPOSE_PROJECT_NAME}_mongodb
@@ -81,7 +83,7 @@ services:
     ports:
       - ${MONGO_PORT1:-27017}:27017
     networks:
-      - network
+      - custom
     env_file:
       - .env
 
@@ -95,7 +97,7 @@ services:
       - --memory-limit=64
       - --threads=4
     networks:
-      - network
+      - custom
   
   # postgres: #todo add
   # check .dockerignore can be used in volume or dockerfile-copy
@@ -112,7 +114,7 @@ services:
       - ${MANTICORE_SEARCH_PORT1:-9306}:9306
       - ${MANTICORE_SEARCH_PORT2:-9308}:9308
     networks:
-      - network
+      - custom
   
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
@@ -126,7 +128,7 @@ services:
     working_dir: /var/www
     tty: true
     networks:
-      - network
+      - custom
     profiles:
       - frontend
 
@@ -144,7 +146,10 @@ services:
     volumes:
       - ./data/valkey:/data
     stdin_open: true
+    networks:
+      - custom
 
 networks:
-  network:
+  custom:
+    name: ${COMPOSE_PROJECT_NAME}_network
     driver: bridge

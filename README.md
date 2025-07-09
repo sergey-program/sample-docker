@@ -1,6 +1,15 @@
 # sample-docker
 
+# Folders
+
 build and up containers
+
+> docker
+> docker/configs
+> docker/data
+> docker/scripts
+
+> /files
 
 Create folders you need in files by containers and their volumes.
 For example for php-fpm you can create backend folder and frontend for nodejs.
