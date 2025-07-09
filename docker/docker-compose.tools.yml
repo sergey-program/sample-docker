@@ -1,0 +1,13 @@
+services:
+  mailpit:
+    container_name: ${COMPOSE_PROJECT_NAME}_mailpit
+    image: axllent/mailpit:latest
+    ports:
+      - ${MAILPIT_PORT1}:1025
+      - ${MAILPIT_PORT2}:8025
+    mem_limit: 64m
+    profiles:
+      - backend
+      - local
+    networks:
+      - custom
