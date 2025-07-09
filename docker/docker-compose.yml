@@ -14,6 +14,7 @@ services:
     depends_on:
       - php-fpm
     profiles:
+      - local
       - backend
       - frontend
 
@@ -30,6 +31,7 @@ services:
     depends_on:
       - mysql
     profiles:
+      - local
       - backend
       - frontend
 
@@ -49,6 +51,7 @@ services:
     networks:
       - custom
     profiles:
+      - local
       - backend
       - frontend
   
@@ -67,6 +70,7 @@ services:
     ports:
       - ${POSTGRES_PORT1:-5432}:5432
     profiles:
+      - local
       - backend
       - frontend
     networks:
@@ -86,6 +90,9 @@ services:
       - custom
     env_file:
       - .env
+    profiles:
+      - local
+      - backend
 
   memcached:
     container_name: ${COMPOSE_PROJECT_NAME}_memcached
@@ -98,6 +105,9 @@ services:
       - --threads=4
     networks:
       - custom
+    profiles:
+      - local
+      - backend
   
   # postgres: #todo add
   # check .dockerignore can be used in volume or dockerfile-copy
@@ -115,6 +125,9 @@ services:
       - ${MANTICORE_SEARCH_PORT2:-9308}:9308
     networks:
       - custom
+    profiles:
+      - local
+      - backend
   
   nodejs:
     container_name: ${COMPOSE_PROJECT_NAME}_nodejs
@@ -130,6 +143,7 @@ services:
     networks:
       - custom
     profiles:
+      - local
       - frontend
 
   valkey:
@@ -148,6 +162,9 @@ services:
     stdin_open: true
     networks:
       - custom
+    profiles:
+      - local
+      - backend
 
 networks:
   custom:
