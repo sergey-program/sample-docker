@@ -7,7 +7,6 @@ services:
       - ${MAILPIT_PORT2}:8025
     mem_limit: 64m
     profiles:
-      - backend
-      - local
+      - tools
     networks:
       - custom
