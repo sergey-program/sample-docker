@@ -109,7 +109,6 @@ services:
       - local
       - backend
   
-  # postgres: #todo add
   # check .dockerignore can be used in volume or dockerfile-copy
 
   manticoresearch:
